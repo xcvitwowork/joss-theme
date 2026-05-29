@@ -1,0 +1,264 @@
+{% comment %}
+<div id="lb-popup" class="lb-popup hidden">
+  <div class="lb-popup__overlay"></div>
+
+  <div class="lb-popup__box">
+    <button type="button" class="lb-popup__close" aria-label="Close">×</button>
+
+    <h3 class="lb-popup__title">Important Shipping Update</h3>
+
+    <p class="lb-popup__text">
+      Orders containing <strong>Liquid Bronzer</strong> will be shipped starting from <strong>May 11</strong>.
+    </p>
+
+    <p class="lb-popup__text">
+      You can also explore our other products available for faster shipping.
+    </p>
+
+    <div class="lb-popup__actions">
+      <button type="button" class="lb-popup__btn lb-popup__btn--gold lb-popup__continue">
+        Continue shopping
+      </button>
+
+      <a href="/collections/tanning-products" class="lb-popup__link">
+        View other products
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lb-popup.hidden {
+    display: none !important;
+  }
+
+  .lb-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+  }
+
+  .lb-popup__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+  }
+
+  .lb-popup__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 32px);
+    max-width: 560px;
+    background: #000000;
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  }
+
+  .lb-popup__close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    font-size: 38px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.9;
+    padding: 0;
+  }
+
+  .lb-popup__close:hover {
+    opacity: 1;
+  }
+
+  .lb-popup__title {
+    margin: 0 0 14px;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+  }
+
+  .lb-popup__text {
+    margin: 0 0 14px;
+    font-size: 16px;
+    line-height: 1.55;
+    font-weight: 300;
+    opacity: 0.9;
+  }
+
+  .lb-popup__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .lb-popup__btn {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 260px;
+    min-height: 56px;
+    padding: 14px 28px;
+    border-radius: 12px;
+    text-decoration: none !important;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .lb-popup__btn--gold {
+    background: #c9973f !important;
+    color: #ffffff !important;
+    border: 1px solid #c9973f !important;
+  }
+
+  .lb-popup__btn--gold:hover {
+    background: #b98936 !important;
+    border-color: #b98936 !important;
+    color: #ffffff !important;
+  }
+
+  .lb-popup__link {
+    display: inline-block;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.3;
+    opacity: 0.75;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s ease;
+  }
+
+  .lb-popup__link:hover {
+    opacity: 1;
+    color: #ffffff !important;
+  }
+
+  .lb-popup__btn:visited,
+  .lb-popup__btn:focus,
+  .lb-popup__btn:active,
+  .lb-popup__link:visited,
+  .lb-popup__link:focus,
+  .lb-popup__link:active {
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .lb-popup__box {
+      padding: 30px 18px;
+      margin-top: 0;
+    }
+
+    .lb-popup__title {
+      font-size: 24px;
+    }
+
+    .lb-popup__btn {
+      width: 100%;
+      min-width: 100%;
+    }
+  }
+</style>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', async function () {
+    const popup = document.getElementById('lb-popup');
+    if (!popup) return;
+
+    const EUROPE_COUNTRIES = [
+      'AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR',
+      'DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+      'PL','PT','RO','SK','SI','ES','SE',
+      'GB','NO','IS','CH','MD','RS','BA','AL','MK',
+      'ME','XK','GE','AM','AZ','BY','TR','UA'
+    ];
+
+    // Перевірка реального IP через кеш в sessionStorage
+    async function isEuropeanVisitor() {
+      const cached = sessionStorage.getItem('lb_country');
+      if (cached) return EUROPE_COUNTRIES.includes(cached);
+
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        sessionStorage.setItem('lb_country', data.country_code);
+        return EUROPE_COUNTRIES.includes(data.country_code);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    const isEU = await isEuropeanVisitor();
+    if (!isEU) return;
+
+    const closeBtn = popup.querySelector('.lb-popup__close');
+    const overlay = popup.querySelector('.lb-popup__overlay');
+    const TARGET_PRODUCT_IDS = [8309442347186, 8792760418482, 8352326189234];
+    let popupShownForCurrentAdd = false;
+
+    function showPopup() {
+      popup.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hidePopup() {
+      popup.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function cartHasTargetProduct(cart) {
+      if (!cart || !cart.items || !Array.isArray(cart.items)) return false;
+      return cart.items.some(function (item) {
+        return TARGET_PRODUCT_IDS.includes(item.product_id);
+      });
+    }
+
+    async function checkCartAndShowPopupOnce() {
+      try {
+        const res = await fetch('/cart.js', { credentials: 'same-origin' });
+        const cart = await res.json();
+        if (cartHasTargetProduct(cart) && !popupShownForCurrentAdd) {
+          popupShownForCurrentAdd = true;
+          showPopup();
+        }
+      } catch (error) {
+        console.error('Liquid Bronzer popup error:', error);
+      }
+    }
+
+    closeBtn.addEventListener('click', hidePopup);
+    overlay.addEventListener('click', hidePopup);
+    popup.querySelector('.lb-popup__continue').addEventListener('click', hidePopup);
+
+    document.addEventListener('click', function (event) {
+      const addButton = event.target.closest('button[name="add"], [name="add"]');
+      if (!addButton) return;
+      popupShownForCurrentAdd = false;
+      setTimeout(checkCartAndShowPopupOnce, 900);
+    });
+
+    document.addEventListener('submit', function (event) {
+      const form = event.target.closest('form[action*="/cart/add"]');
+      if (!form) return;
+      popupShownForCurrentAdd = false;
+      setTimeout(checkCartAndShowPopupOnce, 900);
+    });
+  });
+</script>
+{% endcomment %}
