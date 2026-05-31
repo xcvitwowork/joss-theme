@@ -1,0 +1,13 @@
+<div class="page-width" style="max-width:480px;padding:80px 24px">
+  <h1 style="font-size:36px;font-weight:700;margin-bottom:32px">Create account</h1>
+  {%- form 'create_customer' -%}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-field"><label class="form-label">First name</label><input class="form-input" type="text" name="customer[first_name]"></div>
+      <div class="form-field"><label class="form-label">Last name</label><input class="form-input" type="text" name="customer[last_name]"></div>
+    </div>
+    <div class="form-field mt-16"><label class="form-label">Email</label><input class="form-input" type="email" name="customer[email]" required></div>
+    <div class="form-field mt-16"><label class="form-label">Password</label><input class="form-input" type="password" name="customer[password]" required></div>
+    <button type="submit" class="btn btn--primary btn--full mt-24">Create account</button>
+  {%- endform -%}
+</div>
+{% schema %}{"name":"Register","tag":"div","presets":[{"name":"Register"}]}{% endschema %}

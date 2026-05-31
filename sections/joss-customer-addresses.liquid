@@ -1,0 +1,10 @@
+<div class="page-width" style="max-width:640px;padding:60px 24px 80px">
+  <h1 style="font-size:clamp(24px,3vw,40px);font-weight:700;margin-bottom:32px">Addresses</h1>
+  {%- for address in customer.addresses -%}
+    <div style="padding:20px;border:.5px solid rgba(255,255,255,.1);margin-bottom:16px;font-size:13px;color:rgba(255,255,255,.8)">
+      {{ address.formatted | newline_to_br }}
+    </div>
+  {%- endfor -%}
+  <a href="{{ routes.account_url }}" class="btn btn--secondary">Back to Account</a>
+</div>
+{% schema %}{"name":"Addresses","tag":"div","presets":[{"name":"Addresses"}]}{% endschema %}

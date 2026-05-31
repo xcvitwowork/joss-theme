@@ -1,0 +1,48 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width">
+    {%- if section.settings.label != blank -%}<div class="section-label">{{ section.settings.label }}</div>{%- endif -%}
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+    <div class="testimonials__grid testimonials__grid--{{ section.blocks.size | at_most: 3 }}">
+      {%- for block in section.blocks -%}
+        <div class="testimonial-card reveal" {{ block.shopify_attributes }}>
+          <div class="testimonial-card__stars">{%- for i in (1..block.settings.stars) -%}★{%- endfor -%}</div>
+          {%- if block.settings.text != blank -%}<p class="testimonial-card__text">"{{ block.settings.text }}"</p>{%- endif -%}
+          {%- if block.settings.name != blank -%}<div class="testimonial-card__name">{{ block.settings.name }}</div>{%- endif -%}
+          {%- if block.settings.role != blank -%}<div class="testimonial-card__role">{{ block.settings.role }}</div>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "JOSS Testimonials",
+  "tag": "div",
+  "settings": [
+    { "type": "text",  "id": "label",          "label": "Label", "default": "Reviews" },
+    { "type": "text",  "id": "title",          "label": "Title", "default": "What champions say" },
+    { "type": "range", "id": "padding_top",    "label": "Padding top",    "min": 0, "max": 120, "step": 4, "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 80 }
+  ],
+  "blocks": [{
+    "type": "review", "name": "Review", "limit": 9,
+    "settings": [
+      { "type": "range",    "id": "stars",  "label": "Stars", "min": 1, "max": 5, "default": 5 },
+      { "type": "textarea", "id": "text",   "label": "Quote" },
+      { "type": "text",     "id": "name",   "label": "Name" },
+      { "type": "text",     "id": "role",   "label": "Role / Location" }
+    ]
+  }],
+  "presets": [{
+    "name": "JOSS Testimonials",
+    "blocks": [
+      { "type": "review", "settings": { "stars": 5, "text": "Stays on through an entire competition without streaking. Finally a product made for dancers.", "name": "Anna K.", "role": "Professional Ballroom Dancer" }},
+      { "type": "review", "settings": { "stars": 5, "text": "The only bronzer that photographs beautifully under stage lighting. I won't compete without it.", "name": "Maria S.", "role": "Dance Instructor" }},
+      { "type": "review", "settings": { "stars": 5, "text": "The loose powder adds exactly the right sparkle. My go-to for every performance.", "name": "Elena V.", "role": "Latin Dance Champion" }}
+    ]
+  }]
+}
+{% endschema %}

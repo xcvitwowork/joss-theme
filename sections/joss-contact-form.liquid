@@ -1,0 +1,35 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width">
+    {%- if section.settings.label != blank -%}<div class="section-label">{{ section.settings.label }}</div>{%- endif -%}
+    <h2 class="section-title mb-32">{{ section.settings.title }}</h2>
+    {%- if section.settings.subtitle != blank -%}<p style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:36px;max-width:460px">{{ section.settings.subtitle }}</p>{%- endif -%}
+    {%- form 'contact', class: 'contact-form' -%}
+      {%- if form.posted_successfully? -%}
+        <p style="color:var(--color-gold);padding:14px 18px;border:.5px solid var(--color-border-g);margin-bottom:20px">✓ Thank you! We'll be in touch soon.</p>
+      {%- endif -%}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-field"><label class="form-label">Name</label><input class="form-input" type="text" name="contact[name]" required placeholder="Your name"></div>
+        <div class="form-field"><label class="form-label">Email</label><input class="form-input" type="email" name="contact[email]" required placeholder="your@email.com"></div>
+      </div>
+      <div class="form-field mt-16"><label class="form-label">Message</label><textarea class="form-input form-textarea" name="contact[body]" required placeholder="How can we help?"></textarea></div>
+      <button type="submit" class="btn btn--primary mt-16" style="width:100%;justify-content:center">Send Message</button>
+    {%- endform -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "JOSS Contact Form",
+  "tag": "div",
+  "settings": [
+    { "type": "text",     "id": "label",    "label": "Label",    "default": "Get in Touch" },
+    { "type": "text",     "id": "title",    "label": "Title",    "default": "Contact us" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle" },
+    { "type": "range",    "id": "padding_top",    "label": "Padding top",    "min": 0, "max": 120, "step": 4, "default": 80 },
+    { "type": "range",    "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 80 }
+  ],
+  "presets": [{ "name": "JOSS Contact Form" }]
+}
+{% endschema %}

@@ -1,0 +1,11 @@
+<div id="search-overlay" class="search-overlay" aria-hidden="true">
+  <div class="search-overlay__inner">
+    <button class="search-overlay__close" id="search-close" aria-label="Close">✕</button>
+    {%- form 'search', action: routes.search_url -%}
+      <input class="search-overlay__input" type="search" name="q"
+             placeholder="{{ settings.search_placeholder | default: 'Search products…' }}"
+             autocomplete="off">
+    {%- endform -%}
+    <div class="search-overlay__hint">Try: "tanning cream", "liquid bronzer"</div>
+  </div>
+</div>

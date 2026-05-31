@@ -1,0 +1,49 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width">
+    {%- if section.settings.label != blank or section.settings.title != blank -%}
+      <div class="text-center mb-48">
+        {%- if section.settings.label != blank -%}<div class="section-label section-label--center">{{ section.settings.label }}</div>{%- endif -%}
+        {%- if section.settings.title != blank -%}<h2 class="section-title text-center">{{ section.settings.title }}</h2>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="stats__grid stats__grid--4">
+      {%- for block in section.blocks -%}
+        <div class="reveal" {{ block.shopify_attributes }}>
+          <div class="stat__number">{{ block.settings.number }}</div>
+          <div class="stat__label">{{ block.settings.label }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "JOSS Stats",
+  "tag": "div",
+  "settings": [
+    { "type": "text",  "id": "label",          "label": "Label" },
+    { "type": "text",  "id": "title",          "label": "Title" },
+    { "type": "range", "id": "padding_top",    "label": "Padding top",    "min": 0, "max": 120, "step": 4, "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 80 }
+  ],
+  "blocks": [{
+    "type": "stat", "name": "Stat", "limit": 4,
+    "settings": [
+      { "type": "text", "id": "number", "label": "Number", "default": "10+" },
+      { "type": "text", "id": "label",  "label": "Label",  "default": "Countries" }
+    ]
+  }],
+  "presets": [{
+    "name": "JOSS Stats",
+    "blocks": [
+      { "type": "stat", "settings": { "number": "10+",  "label": "Countries" }},
+      { "type": "stat", "settings": { "number": "127",  "label": "5-Star Reviews" }},
+      { "type": "stat", "settings": { "number": "4.9★", "label": "Average Rating" }},
+      { "type": "stat", "settings": { "number": "100%", "label": "Stage-Tested" }}
+    ]
+  }]
+}
+{% endschema %}

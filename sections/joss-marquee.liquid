@@ -1,0 +1,23 @@
+{%- assign items = section.settings.text | split: '|' -%}
+<div class="marquee section-{{ section.id }}" style="--marquee-speed:{{ section.settings.speed }}s">
+  <div class="marquee__track" aria-hidden="true">
+    {%- for item in items -%}
+      <span class="marquee__item"><span class="marquee__dot"></span>{{ item | strip }}</span>
+    {%- endfor -%}
+    {%- for item in items -%}
+      <span class="marquee__item"><span class="marquee__dot"></span>{{ item | strip }}</span>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "JOSS Marquee",
+  "tag": "div",
+  "settings": [
+    { "type": "textarea", "id": "text",  "label": "Items (separated by |)", "default": "Trusted by Champions|Made in Ukraine|Premium Quality|Stage & Dance|Tan · Glow · Sparkle|Durable Formula" },
+    { "type": "range",    "id": "speed", "label": "Speed (seconds)", "min": 10, "max": 60, "step": 2, "default": 36 }
+  ],
+  "presets": [{ "name": "JOSS Marquee" }]
+}
+{% endschema %}

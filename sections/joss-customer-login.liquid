@@ -1,0 +1,10 @@
+<div class="page-width" style="max-width:480px;padding:80px 24px">
+  <h1 style="font-size:36px;font-weight:700;margin-bottom:32px">Log in</h1>
+  {%- form 'customer_login' -%}
+    <div class="form-field"><label class="form-label">Email</label><input class="form-input" type="email" name="customer[email]" required></div>
+    <div class="form-field mt-16"><label class="form-label">Password</label><input class="form-input" type="password" name="customer[password]" required></div>
+    <button type="submit" class="btn btn--primary btn--full mt-24">Log in</button>
+  {%- endform -%}
+  <p style="margin-top:20px;font-size:13px;color:rgba(255,255,255,.5)"><a href="{{ routes.account_register_url }}" style="color:#D09B4A">Create account</a></p>
+</div>
+{% schema %}{"name":"Login","tag":"div","presets":[{"name":"Login"}]}{% endschema %}

@@ -1,0 +1,82 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: 0 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}">
+  <div class="page-width">
+    <div class="bundle">
+      {%- if section.settings.image_side == 'right' -%}
+        <div class="bundle__content">
+      {%- else -%}
+        {%- if section.settings.image -%}
+          <div class="bundle__image">
+            <img src="{{ section.settings.image | image_url: width: 900 }}"
+                 alt="{{ section.settings.title | escape }}" loading="lazy">
+          </div>
+        {%- endif -%}
+        <div class="bundle__content">
+      {%- endif -%}
+
+        {%- if section.settings.label != blank -%}
+          <div class="bundle__label">{{ section.settings.label }}</div>
+        {%- endif -%}
+        <h2 class="bundle__title">{{ section.settings.title }}</h2>
+        {%- if section.settings.text != blank -%}
+          <p class="bundle__text">{{ section.settings.text }}</p>
+        {%- endif -%}
+
+        <div class="bundle__price">
+          {%- if section.settings.product != blank -%}
+            {%- assign bp = all_products[section.settings.product] -%}
+            <span class="bundle__price-main">{{ bp.price_min | money }}</span>
+          {%- elsif section.settings.price != blank -%}
+            <span class="bundle__price-main">{{ section.settings.price }}</span>
+          {%- endif -%}
+          {%- if section.settings.price_was != blank -%}
+            <span class="bundle__price-was">{{ section.settings.price_was }}</span>
+          {%- endif -%}
+          {%- if section.settings.price_save != blank -%}
+            <span class="bundle__price-save">{{ section.settings.price_save }}</span>
+          {%- endif -%}
+        </div>
+
+        <a href="{{ section.settings.btn_url | default: routes.all_products_collection_url }}"
+           class="btn btn--primary" style="align-self:flex-start">
+          {{ section.settings.btn_label | default: 'Get the Big Set' }}
+        </a>
+
+      </div>
+
+      {%- if section.settings.image_side == 'right' and section.settings.image -%}
+        <div class="bundle__image">
+          <img src="{{ section.settings.image | image_url: width: 900 }}"
+               alt="{{ section.settings.title | escape }}" loading="lazy">
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "JOSS Bundle / Set",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image",      "label": "Image" },
+    { "type": "select",       "id": "image_side", "label": "Image side",
+      "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}],
+      "default": "left" },
+    { "type": "text",    "id": "label",     "label": "Label",       "default": "Best Value" },
+    { "type": "text",    "id": "title",     "label": "Title",       "default": "The Big Set — Complete ritual" },
+    { "type": "textarea","id": "text",      "label": "Description" },
+    { "type": "product", "id": "product",   "label": "Product (auto price)" },
+    { "type": "text",    "id": "price",     "label": "Price (manual)", "default": "$98" },
+    { "type": "text",    "id": "price_was", "label": "Original price", "default": "$109" },
+    { "type": "text",    "id": "price_save","label": "Save label",    "default": "–10%" },
+    { "type": "text",    "id": "btn_label", "label": "Button label",  "default": "Get the Big Set" },
+    { "type": "url",     "id": "btn_url",   "label": "Button URL" },
+    { "type": "range",   "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 80 }
+  ],
+  "presets": [{ "name": "JOSS Bundle" }]
+}
+{% endschema %}

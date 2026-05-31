@@ -1,0 +1,76 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width">
+    <div class="image-with-text image-with-text--image-{{ section.settings.image_side }}">
+      <div class="image-with-text__image-col">
+        {%- if section.settings.image -%}
+          <div class="image-with-text__image-wrap ratio-{{ section.settings.image_ratio }}">
+            <img src="{{ section.settings.image | image_url: width: 900 }}"
+                 alt="{{ section.settings.title | escape }}" loading="lazy">
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="image-with-text__text-col reveal">
+        {%- if section.settings.label != blank -%}
+          <div class="section-label">{{ section.settings.label }}</div>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="image-with-text__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <p class="image-with-text__text">{{ section.settings.text }}</p>
+        {%- endif -%}
+        {%- if section.settings.tags != blank -%}
+          {%- assign tags_arr = section.settings.tags | split: '|' -%}
+          <div class="image-with-text__tags">
+            {%- for tag in tags_arr -%}
+              <span class="image-with-text__tag">{{ tag | strip }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        <div class="image-with-text__buttons">
+          {%- if section.settings.btn1_label != blank -%}
+            <a href="{{ section.settings.btn1_url | default: '#' }}" class="btn btn--primary">
+              {{ section.settings.btn1_label }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.btn2_label != blank -%}
+            <a href="{{ section.settings.btn2_url | default: '#' }}" class="btn btn--secondary">
+              {{ section.settings.btn2_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "JOSS Image + Text",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image",       "label": "Image" },
+    { "type": "select",       "id": "image_ratio",  "label": "Image ratio",
+      "options": [{"value":"34","label":"3:4 Portrait"},{"value":"43","label":"4:3 Landscape"},{"value":"11","label":"1:1 Square"}],
+      "default": "34" },
+    { "type": "select",       "id": "image_side",   "label": "Image side",
+      "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}],
+      "default": "left" },
+    { "type": "text",     "id": "label",            "label": "Label" },
+    { "type": "text",     "id": "title",            "label": "Title" },
+    { "type": "textarea", "id": "text",             "label": "Text" },
+    { "type": "textarea", "id": "tags",             "label": "Tags (separated by |)" },
+    { "type": "text",     "id": "btn1_label",       "label": "Button 1 label" },
+    { "type": "url",      "id": "btn1_url",         "label": "Button 1 URL" },
+    { "type": "text",     "id": "btn2_label",       "label": "Button 2 label" },
+    { "type": "url",      "id": "btn2_url",         "label": "Button 2 URL" },
+    { "type": "range",    "id": "padding_top",      "label": "Padding top",    "min": 0, "max": 120, "step": 4, "default": 80 },
+    { "type": "range",    "id": "padding_bottom",   "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 80 }
+  ],
+  "presets": [{ "name": "JOSS Image + Text" }]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+<div class="page-width">
+  <div class="collection-header">
+    <div class="section-label">Collection</div>
+    <h1 class="collection-header__title">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <p class="collection-header__desc">{{ collection.description }}</p>
+    {%- endif -%}
+  </div>
+  {%- paginate collection.products by 24 -%}
+    <div class="product-grid product-grid--4">
+      {%- for product in collection.products -%}
+        <a href="{{ product.url }}" class="product-card reveal">
+          <div class="product-card__image-wrap">
+            {%- if product.featured_image -%}
+              <img class="product-card__image" src="{{ product.featured_image | image_url: width: 600 }}"
+                   alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
+            {%- endif -%}
+            {%- if product.compare_at_price > product.price -%}
+              <span class="product-card__badge">Sale</span>
+            {%- endif -%}
+            <button class="product-card__cart-btn" aria-label="Add to cart"
+                    onclick="event.preventDefault();joss.addToCart({{ product.first_available_variant.id }})">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            </button>
+          </div>
+          <div class="product-card__name">{{ product.title }}</div>
+          <div class="product-card__footer">
+            <span class="product-card__price">{{ product.price_min | money }}</span>
+          </div>
+        </a>
+      {%- else -%}
+        <p style="grid-column:1/-1;color:rgba(255,255,255,.5);text-align:center;padding:60px 0">No products found.</p>
+      {%- endfor -%}
+    </div>
+  {%- endpaginate -%}
+</div>
+{% schema %}{"name":"Collection","tag":"div","presets":[{"name":"Collection"}]}{% endschema %}

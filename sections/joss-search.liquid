@@ -1,0 +1,24 @@
+<div class="page-width main-search">
+  <h1 style="font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:32px">Search</h1>
+  {%- form 'search', action: routes.search_url -%}
+    <div class="search-form">
+      <input class="search-form__input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products...">
+      <button type="submit" class="btn btn--primary">Search</button>
+    </div>
+  {%- endform -%}
+  {%- if search.performed and search.results.size > 0 -%}
+    <div class="product-grid product-grid--4" style="margin-top:40px">
+      {%- for result in search.results -%}
+        <a href="{{ result.url }}" class="product-card">
+          <div class="product-card__image-wrap">
+            {%- if result.featured_image -%}<img class="product-card__image" src="{{ result.featured_image | image_url: width: 600 }}" alt="{{ result.title | escape }}" loading="lazy">{%- endif -%}
+          </div>
+          <div class="product-card__name">{{ result.title }}</div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- elsif search.performed -%}
+    <p style="color:rgba(255,255,255,.5)">No results for "{{ search.terms }}".</p>
+  {%- endif -%}
+</div>
+{% schema %}{"name":"Search","tag":"div","presets":[{"name":"Search"}]}{% endschema %}

@@ -1,0 +1,105 @@
+<header class="site-header" id="site-header" role="banner">
+  <div class="site-header__inner page-width">
+
+    <!-- LEFT: Desktop Nav / Mobile Hamburger -->
+    <nav class="site-header__nav" aria-label="Main navigation">
+      <ul>
+        {%- for link in linklists.main-menu.links -%}
+          <li>
+            <a href="{{ link.url }}"
+               {% if link.active %}aria-current="page"{% endif %}>
+              {{ link.title }}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger-btn"
+            aria-label="Open menu" aria-expanded="false"
+            aria-controls="mobile-drawer">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- CENTER: Logo -->
+    <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }}">
+      {%- if settings.logo -%}
+        <img src="{{ settings.logo | image_url: height: 88 }}"
+             alt="{{ shop.name }}"
+             class="site-header__logo-img"
+             loading="eager" fetchpriority="high">
+      {%- else -%}
+        <span class="site-header__logo-text">
+          {{ shop.name }}
+          <small>Cosmetics</small>
+        </span>
+      {%- endif -%}
+    </a>
+
+    <!-- RIGHT: Actions -->
+    <div class="site-header__actions">
+
+      {%- if localization.available_languages.size > 1 -%}
+        <div class="lang-switcher">
+          {%- form 'localization', id: 'lang-form' -%}
+            <button class="lang-switcher__btn" id="lang-btn" type="button">
+              <span>{{ localization.language.iso_code | upcase }}</span>
+              <svg width="8" height="6" viewBox="0 0 8 6" fill="none" aria-hidden="true">
+                <path d="M1 1L4 5L7 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <div class="lang-switcher__dropdown" id="lang-drop">
+              {%- for lang in localization.available_languages -%}
+                <a href="#" data-lang="{{ lang.iso_code | upcase }}" data-value="{{ lang.iso_code }}"
+                   {% if lang.iso_code == localization.language.iso_code %}class="active"{% endif %}>
+                  {{ lang.endonym_name }}
+                </a>
+              {%- endfor -%}
+            </div>
+            <input type="hidden" name="language_code" id="lang-input" value="{{ localization.language.iso_code }}">
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+      <button class="header-icon-btn" id="search-open-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5"/>
+          <path d="M15.5 15.5L21 21"/>
+        </svg>
+      </button>
+
+      <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </a>
+
+      <button class="header-icon-btn" data-cart-open aria-label="Cart ({{ cart.item_count }})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="cart-count"{% if cart.item_count == 0 %} style="display:none"{% endif %}>
+          {{ cart.item_count }}
+        </span>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<!-- Search Overlay -->
+<div id="search-overlay" class="search-overlay" aria-hidden="true">
+  <div class="search-overlay__inner">
+    <button class="search-overlay__close" aria-label="Close search">✕</button>
+    {%- form 'search', action: routes.search_url -%}
+      <input class="search-overlay__input" type="search" name="q"
+             placeholder="{{ settings.search_placeholder | default: 'Search products…' }}"
+             autocomplete="off" autocorrect="off" spellcheck="false">
+    {%- endform -%}
+    <div class="search-overlay__hint">
+      Try: "tanning cream", "liquid bronzer", "big set"
+    </div>
+  </div>
+</div>

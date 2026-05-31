@@ -1,0 +1,37 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width">
+    <div class="newsletter text-center">
+      {%- if section.settings.label != blank -%}<div class="section-label section-label--center">{{ section.settings.label }}</div>{%- endif -%}
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}<p class="newsletter__subtitle">{{ section.settings.subtitle }}</p>{%- endif -%}
+      {%- form 'customer', class: 'newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input class="newsletter__input" type="email" name="contact[email]"
+               placeholder="{{ section.settings.placeholder | default: 'your@email.com' }}"
+               required aria-label="Email address">
+        <button type="submit" class="btn btn--primary">{{ section.settings.btn_label | default: 'Subscribe' }}</button>
+      {%- endform -%}
+      {%- if section.settings.disclaimer != blank -%}<p class="newsletter__disclaimer">{{ section.settings.disclaimer }}</p>{%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "JOSS Newsletter",
+  "tag": "div",
+  "settings": [
+    { "type": "text",     "id": "label",       "label": "Label",         "default": "Stay in the loop" },
+    { "type": "text",     "id": "title",       "label": "Title",         "default": "Get exclusive offers & tips" },
+    { "type": "textarea", "id": "subtitle",    "label": "Subtitle" },
+    { "type": "text",     "id": "placeholder", "label": "Input placeholder", "default": "your@email.com" },
+    { "type": "text",     "id": "btn_label",   "label": "Button label",  "default": "Subscribe" },
+    { "type": "text",     "id": "disclaimer",  "label": "Disclaimer",    "default": "No spam. Unsubscribe any time." },
+    { "type": "range",    "id": "padding_top",    "label": "Padding top",    "min": 0, "max": 120, "step": 4, "default": 80 },
+    { "type": "range",    "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 80 }
+  ],
+  "presets": [{ "name": "JOSS Newsletter" }]
+}
+{% endschema %}

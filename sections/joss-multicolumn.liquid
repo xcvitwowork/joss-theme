@@ -1,0 +1,61 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width">
+    {%- if section.settings.label != blank or section.settings.title != blank -%}
+      <div class="text-center mb-48">
+        {%- if section.settings.label != blank -%}<div class="section-label section-label--center">{{ section.settings.label }}</div>{%- endif -%}
+        {%- if section.settings.title != blank -%}<h2 class="section-title">{{ section.settings.title }}</h2>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="multicolumn__grid multicolumn__grid--{{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        <div class="multicolumn-card {% if section.settings.style == 'boxed' %}multicolumn-card--boxed{% endif %} reveal" {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}<div class="multicolumn-card__image"><img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.title | escape }}" loading="lazy"></div>{%- elsif block.settings.icon != blank -%}<div class="multicolumn-card__icon">{{ block.settings.icon }}</div>{%- endif -%}
+          {%- if block.settings.title != blank -%}<h3 class="multicolumn-card__title">{{ block.settings.title }}</h3>{%- endif -%}
+          {%- if block.settings.text != blank -%}<p class="multicolumn-card__text">{{ block.settings.text }}</p>{%- endif -%}
+          {%- if block.settings.btn_label != blank -%}<a href="{{ block.settings.btn_url | default: '#' }}" class="btn btn--link mt-16">{{ block.settings.btn_label }} <span class="arrow">→</span></a>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "JOSS Multicolumn",
+  "tag": "div",
+  "settings": [
+    { "type": "text",   "id": "label",   "label": "Label" },
+    { "type": "text",   "id": "title",   "label": "Title" },
+    { "type": "select", "id": "columns", "label": "Columns",
+      "options": [{"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"}],
+      "default": "3" },
+    { "type": "select", "id": "style",   "label": "Card style",
+      "options": [{"value":"plain","label":"Plain"},{"value":"boxed","label":"Boxed"}],
+      "default": "boxed" },
+    { "type": "range",  "id": "padding_top",    "label": "Padding top",    "min": 0, "max": 120, "step": 4, "default": 80 },
+    { "type": "range",  "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 80 }
+  ],
+  "blocks": [
+    { "type": "column", "name": "Column", "limit": 5,
+      "settings": [
+        { "type": "image_picker", "id": "image",     "label": "Image (optional)" },
+        { "type": "text",         "id": "icon",      "label": "Icon (emoji, if no image)", "default": "✦" },
+        { "type": "text",         "id": "title",     "label": "Title" },
+        { "type": "textarea",     "id": "text",      "label": "Text" },
+        { "type": "text",         "id": "btn_label", "label": "Link label" },
+        { "type": "url",          "id": "btn_url",   "label": "Link URL" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "JOSS Multicolumn",
+    "blocks": [
+      { "type": "column", "settings": { "icon": "✦", "title": "Premium Quality", "text": "Only the finest ingredients, tested for safety and performance under real competition conditions." }},
+      { "type": "column", "settings": { "icon": "★", "title": "Stage-Ready",     "text": "Engineered for bright lights and intense movement. Sweat-resistant and long-lasting." }},
+      { "type": "column", "settings": { "icon": "⬡", "title": "Made in Ukraine", "text": "Developed and manufactured in Ukraine. Supporting local expertise, delivering world-class cosmetics." }}
+    ]
+  }]
+}
+{% endschema %}

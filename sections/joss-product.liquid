@@ -1,0 +1,94 @@
+{%- assign current = product.selected_or_first_available_variant -%}
+<div style="padding-top:80px">
+  <div class="page-width">
+    <nav class="breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span class="breadcrumb__sep">→</span>
+      <a href="{{ routes.all_products_collection_url }}">Products</a>
+      <span class="breadcrumb__sep">→</span>
+      <span>{{ product.title }}</span>
+    </nav>
+    <div class="product-page">
+      <div class="product-gallery">
+        <div class="product-gallery__main" id="gallery-main">
+          {%- if product.featured_media -%}
+            <img src="{{ product.featured_media | image_url: width: 1000 }}"
+                 alt="{{ product.featured_media.alt | default: product.title | escape }}"
+                 id="gallery-main-img" loading="eager">
+          {%- endif -%}
+        </div>
+        {%- for media in product.media limit: 4 offset: 1 -%}
+          <div class="product-gallery__thumb{% if forloop.first %} active{% endif %}"
+               onclick="document.getElementById('gallery-main-img').src='{{ media | image_url: width: 1000 }}';document.querySelectorAll('.product-gallery__thumb').forEach(t=>t.classList.remove('active'));this.classList.add('active')">
+            <img src="{{ media | image_url: width: 400 }}" alt="{{ media.alt | escape }}" loading="lazy">
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="product-info">
+        <div class="product-info__vendor">{{ product.vendor | default: shop.name }}</div>
+        <h1 class="product-info__title">{{ product.title }}</h1>
+        <div class="product-info__price-row">
+          <span class="product-info__price" id="product-price">{{ current.price | money }}</span>
+          {%- if current.compare_at_price > current.price -%}
+            <span class="product-info__compare">{{ current.compare_at_price | money }}</span>
+            {%- assign pct = current.compare_at_price | minus: current.price | times: 100 | divided_by: current.compare_at_price -%}
+            <span class="product-info__save">-{{ pct }}%</span>
+          {%- endif -%}
+        </div>
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div class="product-info__option-label">
+              {{ option.name }}: <strong id="selected-{{ option.name | handleize }}">{{ current.options[forloop.index0] }}</strong>
+            </div>
+            <div class="product-info__variants">
+              {%- for value in option.values -%}
+                <button type="button"
+                        class="variant-btn{% if value == current.options[forloop.index0] %} active{% endif %}"
+                        data-option-index="{{ forloop.index0 }}"
+                        data-value="{{ value }}"
+                        onclick="jossSelectVariant(this,'{{ option.name | handleize }}','{{ value }}')">
+                  {{ value }}
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+        {%- form 'product', product, id: 'product-form' -%}
+          <input type="hidden" name="id" value="{{ current.id }}" id="variant-id">
+          <div class="product-info__qty-row">
+            <div class="qty-control">
+              <button type="button" class="qty-control__btn" data-qty-dec>-</button>
+              <span class="qty-control__val">1</span>
+              <button type="button" class="qty-control__btn" data-qty-inc>+</button>
+            </div>
+          </div>
+          <button type="submit" class="product-info__add-btn"
+                  {% unless current.available %}disabled{% endunless %}>
+            {%- if current.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+          </button>
+        {%- endform -%}
+        {%- if settings.show_bundle_upsell -%}
+          <a href="{{ settings.bundle_url | default: routes.all_products_collection_url }}" class="product-info__upsell">View Big Set -10% -></a>
+        {%- endif -%}
+        <div class="accordion">
+          {%- if product.description != blank -%}
+            <div class="accordion__item">
+              <button class="accordion__trigger" type="button" aria-expanded="false">Description <span class="accordion__icon">+</span></button>
+              <div class="accordion__body" hidden><div class="accordion__content">{{ product.description }}</div></div>
+            </div>
+          {%- endif -%}
+          <div class="accordion__item">
+            <button class="accordion__trigger" type="button" aria-expanded="false">Shipping & Returns <span class="accordion__icon">+</span></button>
+            <div class="accordion__body" hidden><div class="accordion__content">{{ settings.shipping_text }}</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="product-variants-json" type="application/json">
+  [{%- for v in product.variants -%}{"id":{{ v.id }},"price":{{ v.price }},"available":{{ v.available }},"options":[{%- for o in v.options -%}{{ o | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
+</script>
+{% schema %}
+{"name":"Product","tag":"div","settings":[{"type":"checkbox","id":"show_dynamic_checkout","label":"Show Buy it now","default":true}],"presets":[{"name":"Product"}]}
+{% endschema %}

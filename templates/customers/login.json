@@ -1,1 +1,11 @@
-{"sections":{"main":{"type":"main-login","settings":{"enable_shop_login_button":true,"padding_top":36,"padding_bottom":72}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "joss-customer-login",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,18 @@
+<div class="page-width" style="padding:60px 0 80px">
+  <h1 style="font-size:clamp(24px,3vw,40px);font-weight:700;margin-bottom:8px">Order {{ order.name }}</h1>
+  <p style="color:rgba(255,255,255,.5);margin-bottom:32px">{{ order.created_at | date: "%B %d, %Y" }}</p>
+  {%- for item in order.line_items -%}
+    <div class="cart-item">
+      <img class="cart-item__img" src="{{ item.image | image_url: width: 144 }}" alt="{{ item.title | escape }}">
+      <div>
+        <div class="cart-item__name">{{ item.product.title }}</div>
+        <div class="cart-item__price">{{ item.final_line_price | money }}</div>
+      </div>
+    </div>
+  {%- endfor -%}
+  <div class="cart-total-section">
+    <div class="cart-subtotal"><span>Total</span><span class="cart-subtotal__value">{{ order.total_price | money }}</span></div>
+    <a href="{{ routes.account_url }}" class="btn btn--secondary">Back to Account</a>
+  </div>
+</div>
+{% schema %}{"name":"Order","tag":"div","presets":[{"name":"Order"}]}{% endschema %}

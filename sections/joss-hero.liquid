@@ -1,0 +1,85 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: 0; }
+{%- endstyle -%}
+
+<section class="hero section-{{ section.id }}">
+  <div class="hero__overlay"></div>
+
+  {%- if section.settings.image -%}
+    <img class="hero__image"
+         src="{{ section.settings.image | image_url: width: 1600 }}"
+         alt="{{ section.settings.image.alt | default: shop.name | escape }}"
+         loading="eager"
+         fetchpriority="high">
+  {%- endif -%}
+
+  {%- if section.settings.show_badge and section.settings.badge_pct != blank -%}
+    <div class="hero__badge" aria-hidden="true">
+      <div class="hero__badge-pct">{{ section.settings.badge_pct }}</div>
+      <div class="hero__badge-label">{{ section.settings.badge_label }}</div>
+    </div>
+  {%- endif -%}
+
+  <div class="page-width">
+    <div class="hero__content">
+      {%- if section.settings.tag != blank -%}
+        <div class="hero__tag">
+          <div class="hero__tag-line"></div>
+          <span class="hero__tag-text">{{ section.settings.tag }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h1 class="hero__title">
+          {{ section.settings.title }}
+          {%- if section.settings.title_em != blank -%}
+            <em>{{ section.settings.title_em }}</em>
+          {%- endif -%}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="hero__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      <div class="hero__buttons">
+        {%- if section.settings.btn1_label != blank -%}
+          <a href="{{ section.settings.btn1_url | default: routes.all_products_collection_url }}"
+             class="btn btn--primary">
+            {{ section.settings.btn1_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.btn2_label != blank -%}
+          <a href="{{ section.settings.btn2_url | default: '#' }}"
+             class="btn btn--link">
+            {{ section.settings.btn2_label }} <span class="arrow">→</span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "JOSS Hero",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image",      "label": "Hero image (right side)" },
+    { "type": "text",  "id": "tag",               "label": "Eyebrow tag",      "default": "Trusted by Champions" },
+    { "type": "text",  "id": "title",             "label": "Title line 1",     "default": "Glow starts" },
+    { "type": "text",  "id": "title_em",          "label": "Title italic (gold)", "default": "here." },
+    { "type": "textarea", "id": "subtitle",       "label": "Subtitle",         "default": "Professional tanning cosmetics for dance and stage." },
+    { "type": "header", "content": "Promo Badge" },
+    { "type": "checkbox","id": "show_badge",      "label": "Show badge",       "default": true },
+    { "type": "text",  "id": "badge_pct",         "label": "Badge top text",   "default": "–10%" },
+    { "type": "text",  "id": "badge_label",       "label": "Badge bottom text","default": "Big Set" },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text",  "id": "btn1_label",        "label": "Button 1 label",   "default": "Shop Now" },
+    { "type": "url",   "id": "btn1_url",          "label": "Button 1 URL" },
+    { "type": "text",  "id": "btn2_label",        "label": "Button 2 label",   "default": "Big Set –10%" },
+    { "type": "url",   "id": "btn2_url",          "label": "Button 2 URL" }
+  ],
+  "presets": [{ "name": "JOSS Hero" }]
+}
+{% endschema %}

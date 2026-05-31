@@ -1,26 +1,19 @@
 {
-  "name": "t:sections.header.name",
+  "name": "Header",
   "type": "header",
   "sections": {
-    "header": {
-      "type": "header",
+    "announcement": {
+      "type": "joss-announcement",
       "settings": {
-        "logo_position": "middle-center",
-        "mobile_logo_position": "center",
-        "menu": "main-menu",
-        "menu_type_desktop": "mega",
-        "sticky_header_type": "always",
-        "show_line_separator": false,
-        "color_scheme": "scheme-3",
-        "menu_color_scheme": "scheme-3",
-        "enable_country_selector": false,
-        "enable_language_selector": true,
-        "enable_customer_avatar": false,
-        "margin_bottom": 0,
-        "padding_top": 12,
-        "padding_bottom": 12
+        "text": "✦ Free shipping on orders over $50 · Big Set –10% off ✦",
+        "link": "",
+        "show_close": false
       }
+    },
+    "header": {
+      "type": "joss-header",
+      "settings": {}
     }
   },
-  "order": ["header"]
+  "order": ["announcement", "header"]
 }

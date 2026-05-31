@@ -1,0 +1,93 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:{{ section.settings.title_margin }}px">
+      <div>
+        {%- if section.settings.label != blank -%}
+          <div class="section-label">{{ section.settings.label }}</div>
+        {%- endif -%}
+        <h2 class="section-title">{{ section.settings.title }}</h2>
+      </div>
+      {%- if section.settings.view_all_label != blank -%}
+        <a href="{{ section.settings.view_all_url | default: routes.all_products_collection_url }}"
+           class="btn btn--link">
+          {{ section.settings.view_all_label }} <span class="arrow">→</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- assign col = collections[section.settings.collection] -%}
+    {%- assign products_source = col.products | default: collections.all.products -%}
+
+    <div class="product-grid product-grid--{{ section.settings.columns }}">
+      {%- for product in products_source limit: section.settings.count -%}
+        <a href="{{ product.url }}" class="product-card reveal">
+          <div class="product-card__image-wrap">
+            {%- if product.featured_image -%}
+              <img class="product-card__image"
+                   src="{{ product.featured_image | image_url: width: 600 }}"
+                   alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                   loading="lazy">
+            {%- endif -%}
+            {%- if product.compare_at_price > product.price -%}
+              <span class="product-card__badge">Sale</span>
+            {%- endif -%}
+            <button class="product-card__cart-btn"
+                    aria-label="Add {{ product.title | escape }} to cart"
+                    onclick="event.preventDefault();joss.addToCart({{ product.first_available_variant.id }})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
+            </button>
+          </div>
+          <div class="product-card__name">{{ product.title }}</div>
+          {%- if product.metafields.custom.short_description != blank -%}
+            <div class="product-card__meta">{{ product.metafields.custom.short_description }}</div>
+          {%- endif -%}
+          <div class="product-card__footer">
+            <div>
+              <span class="product-card__price">{{ product.price_min | money }}</span>
+              {%- if product.compare_at_price > product.price -%}
+                <span class="product-card__compare">{{ product.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+            <span class="product-card__stars" aria-hidden="true">★★★★★</span>
+          </div>
+        </a>
+      {%- else -%}
+        <p style="color:rgba(255,255,255,.4);font-size:13px">
+          Select a collection in Theme Customizer → Featured Products.
+        </p>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "JOSS Featured Products",
+  "tag": "div",
+  "settings": [
+    { "type": "text",       "id": "label",          "label": "Label",              "default": "Our Products" },
+    { "type": "text",       "id": "title",          "label": "Title",              "default": "Best sellers" },
+    { "type": "collection", "id": "collection",     "label": "Collection" },
+    { "type": "range",      "id": "count",          "label": "Products to show",   "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "select",     "id": "columns",        "label": "Columns (desktop)",
+      "options": [{"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"}],
+      "default": "4" },
+    { "type": "text",       "id": "view_all_label", "label": "View all label",     "default": "View all" },
+    { "type": "url",        "id": "view_all_url",   "label": "View all URL" },
+    { "type": "range",      "id": "title_margin",   "label": "Title bottom margin", "min": 20, "max": 80, "step": 4, "default": 48 },
+    { "type": "range",      "id": "padding_top",    "label": "Padding top",        "min": 0,  "max": 120,"step": 4, "default": 80 },
+    { "type": "range",      "id": "padding_bottom", "label": "Padding bottom",     "min": 0,  "max": 120,"step": 4, "default": 80 }
+  ],
+  "presets": [{ "name": "JOSS Featured Products" }]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+<div class="page-width" style="padding:60px 0 80px">
+  <h1 style="font-size:clamp(32px,4vw,52px);font-weight:700;margin-bottom:40px">{{ blog.title }}</h1>
+  <div class="product-grid product-grid--3">
+    {%- for article in blog.articles -%}
+      <a href="{{ article.url }}" class="product-card">
+        {%- if article.image -%}
+          <div class="product-card__image-wrap" style="aspect-ratio:16/9">
+            <img class="product-card__image" src="{{ article.image | image_url: width: 700 }}" alt="{{ article.image.alt | escape }}" loading="lazy">
+          </div>
+        {%- endif -%}
+        <div class="product-card__name" style="margin-top:12px">{{ article.title }}</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.5);margin-top:6px">{{ article.published_at | date: "%B %d, %Y" }}</p>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+{% schema %}{"name":"Blog","tag":"div","presets":[{"name":"Blog"}]}{% endschema %}

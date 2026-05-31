@@ -1,0 +1,80 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="page-width">
+    <div class="site-footer__grid">
+      <div>
+        {%- if settings.logo -%}
+          <img src="{{ settings.logo | image_url: height: 76 }}"
+               alt="{{ shop.name }}" class="site-footer__logo" loading="lazy">
+        {%- else -%}
+          <div class="site-footer__logo-text">{{ shop.name }}</div>
+        {%- endif -%}
+        <div class="site-footer__tagline">{{ settings.footer_tagline | default: 'Trusted by Champions' }}</div>
+        <p class="site-footer__desc">{{ settings.footer_description | default: 'Professional cosmetics for dance and stage. Made in Ukraine.' }}</p>
+      </div>
+      <div>
+        <div class="site-footer__col-title">Products</div>
+        <ul class="site-footer__links">
+          {%- for link in linklists.footer-products.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- else -%}
+            {%- for product in collections.all.products limit: 5 -%}
+              <li><a href="{{ product.url }}">{{ product.title }}</a></li>
+            {%- endfor -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div>
+        <div class="site-footer__col-title">Navigate</div>
+        <ul class="site-footer__links">
+          {%- for link in linklists.footer-navigate.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- else -%}
+            <li><a href="{{ routes.root_url }}pages/about">About Us</a></li>
+            <li><a href="{{ routes.root_url }}pages/combine-joss">Combine JOSS</a></li>
+            <li><a href="{{ routes.root_url }}pages/contact">Contact</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div>
+        <div class="site-footer__col-title">Support</div>
+        <ul class="site-footer__links">
+          <li><a href="{{ shop.url }}/policies/shipping-policy">Shipping</a></li>
+          <li><a href="{{ shop.url }}/policies/refund-policy">Returns</a></li>
+          <li><a href="{{ shop.url }}/policies/privacy-policy">Privacy</a></li>
+          <li><a href="{{ routes.root_url }}pages/faq">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span class="site-footer__copy">© {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+      <div class="site-footer__socials">
+        {%- if settings.social_instagram != blank -%}
+          <a href="{{ settings.social_instagram }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+        {%- endif -%}
+        {%- if settings.social_tiktok != blank -%}
+          <a href="{{ settings.social_tiktok }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="TikTok">TK</a>
+        {%- endif -%}
+        {%- if settings.social_facebook != blank -%}
+          <a href="{{ settings.social_facebook }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{%- if settings.show_currency_bar -%}
+  <div class="currency-bar">
+    <div class="page-width">
+      <div class="currency-bar__inner">
+        <span class="currency-bar__label">Currency:</span>
+        {%- form 'localization', id: 'currency-form' -%}
+          <input type="hidden" name="country_code" id="currency-input" value="{{ localization.country.iso_code }}">
+          <button type="button" class="currency-bar__btn {% if localization.country.currency.iso_code == 'USD' %}active{% endif %}" data-country="US">USD $</button>
+          <button type="button" class="currency-bar__btn {% if localization.country.currency.iso_code == 'EUR' %}active{% endif %}" data-country="DE">EUR €</button>
+          <button type="button" class="currency-bar__btn {% if localization.country.currency.iso_code == 'GBP' %}active{% endif %}" data-country="GB">GBP £</button>
+          <button type="button" class="currency-bar__btn {% if localization.country.currency.iso_code == 'PLN' %}active{% endif %}" data-country="PL">PLN zł</button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}

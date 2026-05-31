@@ -1,0 +1,45 @@
+<nav id="mobile-drawer" class="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
+  <div class="mobile-drawer__header">
+    <a href="{{ routes.root_url }}">
+      {%- if settings.logo -%}
+        <img src="{{ settings.logo | image_url: height: 68 }}" alt="{{ shop.name }}" class="mobile-drawer__logo">
+      {%- else -%}
+        <span class="mobile-drawer__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+    <button class="mobile-drawer__close" aria-label="Close menu">✕</button>
+  </div>
+  <div class="mobile-drawer__nav">
+    {%- for link in linklists.main-menu.links -%}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {%- endfor -%}
+  </div>
+  <div class="mobile-drawer__footer">
+    <div class="mobile-drawer__langs">
+      {%- if localization.available_languages.size > 1 -%}
+        {%- for lang in localization.available_languages -%}
+          <button class="mobile-drawer__lang {% if lang.iso_code == localization.language.iso_code %}active{% endif %}"
+                  data-lang="{{ lang.iso_code | upcase }}" data-value="{{ lang.iso_code }}"
+                  type="button">
+            {{ lang.iso_code | upcase }}
+          </button>
+        {%- endfor -%}
+      {%- else -%}
+        <button class="mobile-drawer__lang active">EN</button>
+        <button class="mobile-drawer__lang">DE</button>
+        <button class="mobile-drawer__lang">PL</button>
+      {%- endif -%}
+    </div>
+    <div class="mobile-drawer__socials">
+      {%- if settings.social_instagram != blank -%}
+        <a href="{{ settings.social_instagram }}" class="mobile-drawer__social" target="_blank" rel="noopener">IG</a>
+      {%- endif -%}
+      {%- if settings.social_tiktok != blank -%}
+        <a href="{{ settings.social_tiktok }}" class="mobile-drawer__social" target="_blank" rel="noopener">TK</a>
+      {%- endif -%}
+      {%- if settings.social_facebook != blank -%}
+        <a href="{{ settings.social_facebook }}" class="mobile-drawer__social" target="_blank" rel="noopener">FB</a>
+      {%- endif -%}
+    </div>
+  </div>
+</nav>

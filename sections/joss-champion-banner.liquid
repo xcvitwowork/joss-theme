@@ -1,0 +1,36 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width">
+    <div class="champion-banner">
+      <h2 class="champion-banner__title">
+        {{ section.settings.title }}
+        {%- if section.settings.title_em != blank -%}<em>{{ section.settings.title_em }}</em>{%- endif -%}
+      </h2>
+      {%- if section.settings.subtitle != blank -%}<p class="champion-banner__subtitle">{{ section.settings.subtitle }}</p>{%- endif -%}
+      <div class="champion-banner__buttons">
+        {%- if section.settings.btn1_label != blank -%}<a href="{{ section.settings.btn1_url | default: routes.all_products_collection_url }}" class="btn btn--primary">{{ section.settings.btn1_label }}</a>{%- endif -%}
+        {%- if section.settings.btn2_label != blank -%}<a href="{{ section.settings.btn2_url | default: '#' }}" class="btn btn--secondary">{{ section.settings.btn2_label }}</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "JOSS Champion Banner",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title",     "label": "Title",              "default": "Trusted by" },
+    { "type": "text", "id": "title_em",  "label": "Title italic (gold)","default": "Champions" },
+    { "type": "text", "id": "subtitle",  "label": "Subtitle",           "default": "Tan · Glow · Sparkle — All in one ritual." },
+    { "type": "text", "id": "btn1_label","label": "Button 1",           "default": "Shop the Collection" },
+    { "type": "url",  "id": "btn1_url",  "label": "Button 1 URL" },
+    { "type": "text", "id": "btn2_label","label": "Button 2",           "default": "About Us" },
+    { "type": "url",  "id": "btn2_url",  "label": "Button 2 URL" },
+    { "type": "range","id": "padding_top",    "label": "Padding top",    "min": 0, "max": 140, "step": 4, "default": 100 },
+    { "type": "range","id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 140, "step": 4, "default": 100 }
+  ],
+  "presets": [{ "name": "JOSS Champion Banner" }]
+}
+{% endschema %}

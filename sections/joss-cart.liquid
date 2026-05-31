@@ -1,0 +1,29 @@
+<div class="page-width main-cart">
+  <h1 class="main-cart__title">Your Cart</h1>
+  {%- if cart.item_count == 0 -%}
+    <div style="text-align:center;padding:80px 0">
+      <p style="color:rgba(255,255,255,.5);margin-bottom:24px">Your cart is empty</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">Continue Shopping</a>
+    </div>
+  {%- else -%}
+    {%- for item in cart.items -%}
+      <div class="cart-item">
+        <img class="cart-item__img" src="{{ item.image | image_url: width: 144 }}" alt="{{ item.title | escape }}">
+        <div>
+          <div class="cart-item__name">{{ item.product.title }}</div>
+          {%- unless item.variant.title == 'Default Title' -%}<div class="cart-item__variant">{{ item.variant.title }}</div>{%- endunless -%}
+          <div class="cart-item__price">{{ item.final_price | money }}</div>
+        </div>
+        <span style="font-size:12px;color:rgba(255,255,255,.5)">x{{ item.quantity }}</span>
+      </div>
+    {%- endfor -%}
+    <div class="cart-total-section">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span class="cart-subtotal__value">{{ cart.total_price | money }}</span>
+      </div>
+      <a href="{{ routes.checkout }}" class="btn btn--primary btn--full">Checkout</a>
+    </div>
+  {%- endif -%}
+</div>
+{% schema %}{"name":"Cart","tag":"div","presets":[{"name":"Cart"}]}{% endschema %}

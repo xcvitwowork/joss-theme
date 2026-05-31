@@ -1,0 +1,49 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+<div class="section-{{ section.id }} section--bordered">
+  <div class="page-width" style="max-width:760px">
+    {%- if section.settings.label != blank -%}<div class="section-label">{{ section.settings.label }}</div>{%- endif -%}
+    <h2 class="section-title mb-32">{{ section.settings.title }}</h2>
+    <div class="accordion">
+      {%- for block in section.blocks -%}
+        <div class="accordion__item" {{ block.shopify_attributes }}>
+          <button class="accordion__trigger" type="button" aria-expanded="false">
+            {{ block.settings.question }}
+            <span class="accordion__icon" aria-hidden="true">+</span>
+          </button>
+          <div class="accordion__body" hidden>
+            <div class="accordion__content">{{ block.settings.answer }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "JOSS FAQ",
+  "tag": "div",
+  "settings": [
+    { "type": "text",  "id": "label", "label": "Label", "default": "FAQ" },
+    { "type": "text",  "id": "title", "label": "Title", "default": "Frequently asked questions" },
+    { "type": "range", "id": "padding_top",    "label": "Padding top",    "min": 0, "max": 120, "step": 4, "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "default": 80 }
+  ],
+  "blocks": [{
+    "type": "question", "name": "Question",
+    "settings": [
+      { "type": "text",     "id": "question", "label": "Question" },
+      { "type": "richtext", "id": "answer",   "label": "Answer" }
+    ]
+  }],
+  "presets": [{
+    "name": "JOSS FAQ",
+    "blocks": [
+      { "type": "question", "settings": { "question": "How long does the tan last?", "answer": "<p>With proper preparation, Body Tanning Cream typically lasts 12–18 hours.</p>" }},
+      { "type": "question", "settings": { "question": "Can I use JOSS products together?", "answer": "<p>Absolutely — apply Tanning Cream, then Liquid Bronzer, finish with Sparkling Powder.</p>" }},
+      { "type": "question", "settings": { "question": "Do you ship internationally?", "answer": "<p>Yes! We ship to Ukraine, EU (Polish warehouse), USA and more. Free shipping over $50.</p>" }}
+    ]
+  }]
+}
+{% endschema %}
