@@ -1,0 +1,31 @@
+{%- comment -%}
+  JOSS вписаний векторний логотип (fallback).
+  Серифний wordmark "JOSS" + золота 4-кутна зірка над J + "COSMETICS".
+  Використовується якщо settings.logo не завантажено.
+  Параметр: variant ('light' = білий текст; 'dark' = чорний)
+{%- endcomment -%}
+{%- liquid
+  assign variant = variant | default: 'light'
+  if variant == 'dark'
+    assign word_color = '#000000'
+  else
+    assign word_color = '#FFFFFF'
+  endif
+-%}
+<span class="joss-logo joss-logo--{{ variant }}" role="img" aria-label="JOSS Cosmetics">
+  <svg class="joss-logo__svg" viewBox="0 0 240 78" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path class="joss-logo__star"
+          d="M40 2 C41 11 43 13 52 14 C43 15 41 17 40 26 C39 17 37 15 28 14 C37 13 39 11 40 2 Z"
+          fill="#D09B4A"/>
+    <text class="joss-logo__word" x="120" y="52"
+          text-anchor="middle"
+          font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
+          font-size="54" font-weight="600" letter-spacing="1"
+          fill="{{ word_color }}">JOSS</text>
+    <text class="joss-logo__sub" x="120" y="70"
+          text-anchor="middle"
+          font-family="'Montserrat', sans-serif"
+          font-size="9.5" font-weight="600" letter-spacing="6"
+          fill="#D09B4A">COSMETICS</text>
+  </svg>
+</span>

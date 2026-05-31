@@ -23,15 +23,13 @@
     <!-- CENTER: Logo -->
     <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }}">
       {%- if settings.logo -%}
-        <img src="{{ settings.logo | image_url: height: 88 }}"
+        <img src="{{ settings.logo | image_url: height: 120 }}"
              alt="{{ shop.name }}"
              class="site-header__logo-img"
+             width="{{ settings.logo_width | default: 120 }}"
              loading="eager" fetchpriority="high">
       {%- else -%}
-        <span class="site-header__logo-text">
-          {{ shop.name }}
-          <small>Cosmetics</small>
-        </span>
+        {%- render 'joss-logo' -%}
       {%- endif -%}
     </a>
 

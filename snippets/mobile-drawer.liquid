@@ -4,7 +4,7 @@
       {%- if settings.logo -%}
         <img src="{{ settings.logo | image_url: height: 68 }}" alt="{{ shop.name }}" class="mobile-drawer__logo">
       {%- else -%}
-        <span class="mobile-drawer__logo-text">{{ shop.name }}</span>
+        {%- render 'joss-logo' -%}
       {%- endif -%}
     </a>
     <button class="mobile-drawer__close" aria-label="Close menu">✕</button>

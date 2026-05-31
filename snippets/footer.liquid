@@ -6,7 +6,7 @@
           <img src="{{ settings.logo | image_url: height: 76 }}"
                alt="{{ shop.name }}" class="site-footer__logo" loading="lazy">
         {%- else -%}
-          <div class="site-footer__logo-text">{{ shop.name }}</div>
+          {%- render 'joss-logo' -%}
         {%- endif -%}
         <div class="site-footer__tagline">{{ settings.footer_tagline | default: 'Trusted by Champions' }}</div>
         <p class="site-footer__desc">{{ settings.footer_description | default: 'Professional cosmetics for dance and stage. Made in Ukraine.' }}</p>
