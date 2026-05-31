@@ -1,6 +1,5 @@
 /* ============================================================
-   JOSS COSMETICS — CUSTOM STYLE v4.0
-   Full JOSS brand override on Sense base
+   JOSS COSMETICS — CUSTOM STYLE v5.0
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
@@ -10,33 +9,64 @@
   --joss-gold: #D09B4A;
   --joss-gold-lt: #E8B870;
   --joss-brown: #412E27;
-  --joss-black: #000;
-  --font-body--family: 'Montserrat', sans-serif !important;
-  --font-heading--family: 'Montserrat', sans-serif !important;
+  --font-body--family: 'Montserrat', sans-serif;
+  --font-heading--family: 'Montserrat', sans-serif;
   --color-base-accent-1: 208, 155, 74;
   --color-base-accent-2: 208, 155, 74;
 }
 
 /* ── BODY — JOSS GRADIENT ── */
+/* Override Sense color scheme background */
+body,
+body.color-scheme-1,
+.color-scheme-1,
+[class*='color-scheme'] {
+  background-color: transparent !important;
+}
+
+html {
+  background: linear-gradient(180deg,
+    #000000  0%,
+    #0d0600  8%,
+    #1c0a04 18%,
+    #2e1608 28%,
+    #412E27 42%,
+    #6b3d18 58%,
+    #9a6028 72%,
+    #c28238 86%,
+    #D09B4A 100%
+  ) fixed #000 !important;
+  min-height: 100%;
+}
+
 body {
   font-family: 'Montserrat', sans-serif !important;
-  background:
-    linear-gradient(180deg,
-      #000000  0%,
-      #0d0600  8%,
-      #1c0a04 18%,
-      #2e1608 28%,
-      #412E27 42%,
-      #6b3d18 58%,
-      #9a6028 72%,
-      #c28238 86%,
-      #D09B4A 100%
-    ) fixed !important;
+  background: transparent !important;
   min-height: 100vh;
   color: #fff !important;
 }
+
 @media (max-width: 768px) {
-  body { background-attachment: scroll !important; }
+  html { background-attachment: scroll !important; }
+}
+
+/* ── KILL SENSE BACKGROUNDS ── */
+.gradient {
+  background: transparent !important;
+}
+.shopify-section {
+  background: transparent !important;
+}
+.color-background-1,
+.color-background-2,
+.color-background-3,
+.color-background-4 {
+  background: transparent !important;
+}
+body .color-scheme-1,
+body .color-scheme-2,
+body .color-scheme-3 {
+  background: transparent !important;
 }
 
 /* ── ALL TEXT WHITE BY DEFAULT ── */
@@ -83,8 +113,10 @@ section { background: transparent !important; }
 }
 .header__logo,
 .header__heading-logo {
-  mix-blend-mode: screen;
-  filter: brightness(1.1);
+  mix-blend-mode: normal;
+  filter: brightness(10) saturate(0) invert(0);
+  max-height: 44px;
+  width: auto;
 }
 .header__menu-item,
 .header__submenu .link,
