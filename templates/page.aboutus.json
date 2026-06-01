@@ -1,0 +1,65 @@
+{
+  "sections": {
+    "hero": {
+      "type": "joss-rich-text",
+      "settings": {
+        "alignment": "center",
+        "bordered": false,
+        "padding_top": 90,
+        "padding_bottom": 20
+      },
+      "blocks": {
+        "label": { "type": "heading", "settings": { "text": "About <em>JOSS Cosmetics</em>", "size_min": 32, "size_max": 56 } },
+        "lead": { "type": "text", "settings": { "text": "<p>The world's first premium body-makeup brand, created by a dancer and a chemist for those who perform on stage and under the spotlight.</p>" } }
+      },
+      "block_order": ["label", "lead"]
+    },
+    "story": {
+      "type": "joss-video-text",
+      "settings": {
+        "media_side": "left",
+        "eyebrow": "Our story",
+        "title": "Made in Ukraine. Chosen by champions.",
+        "text": "<p>We don't just sell cosmetics. We create professional solutions that deliver confidence, radiance and a flawless look in the most important moment — on the floor, on stage, at the competition.</p><p>Whether you dance in Blackpool, compete at a championship or own the stage — <em>JOSS is your talisman for good luck.</em></p>",
+        "btn_label": "Shop products",
+        "bordered": true,
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "formulas": {
+      "type": "joss-multicolumn",
+      "settings": {
+        "label": "What JOSS formulas are",
+        "title": "Engineered for performance",
+        "columns": "3",
+        "style": "boxed",
+        "padding_top": 70,
+        "padding_bottom": 70
+      },
+      "blocks": {
+        "c1": { "type": "column", "settings": { "icon": "✦", "title": "Scientifically developed", "text": "A formula resistant to sweat, moisture and active movement — so your look lasts from first step to final bow." } },
+        "c2": { "type": "column", "settings": { "icon": "★", "title": "Fast, even application", "text": "Tools and textures designed for quick, uniform coverage across the whole body." } },
+        "c3": { "type": "column", "settings": { "icon": "⬡", "title": "The \"wow\" effect", "text": "Rich tan shades, shimmer and long-lasting fixation that read beautifully under stage lights." } }
+      },
+      "block_order": ["c1", "c2", "c3"]
+    },
+    "stats": {
+      "type": "joss-stats",
+      "settings": {
+        "label": "In numbers",
+        "title": "Trusted by champions",
+        "padding_top": 70,
+        "padding_bottom": 90
+      },
+      "blocks": {
+        "s1": { "type": "stat", "settings": { "number": "10+", "label": "Countries" } },
+        "s2": { "type": "stat", "settings": { "number": "127", "label": "5-Star Reviews" } },
+        "s3": { "type": "stat", "settings": { "number": "4.9★", "label": "Average Rating" } },
+        "s4": { "type": "stat", "settings": { "number": "100%", "label": "Stage-Tested" } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"]
+    }
+  },
+  "order": ["hero", "story", "formulas", "stats"]
+}

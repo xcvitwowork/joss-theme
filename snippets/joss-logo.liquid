@@ -1,8 +1,7 @@
 {%- comment -%}
-  JOSS вписаний векторний логотип (fallback).
-  Серифний wordmark "JOSS" + золота 4-кутна зірка над J + "COSMETICS".
-  Використовується якщо settings.logo не завантажено.
-  Параметр: variant ('light' = білий текст; 'dark' = чорний)
+  JOSS вписаний векторний логотип (fallback) — за брендбуком.
+  Зірка над "J" (зліва), "COSMETICS" під правою частиною.
+  variant: 'light' (білий) | 'dark' (чорний)
 {%- endcomment -%}
 {%- liquid
   assign variant = variant | default: 'light'
@@ -13,19 +12,22 @@
   endif
 -%}
 <span class="joss-logo joss-logo--{{ variant }}" role="img" aria-label="JOSS Cosmetics">
-  <svg class="joss-logo__svg" viewBox="0 0 240 78" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <svg class="joss-logo__svg" viewBox="0 0 260 86" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- 4-point gold star above the J -->
     <path class="joss-logo__star"
-          d="M40 2 C41 11 43 13 52 14 C43 15 41 17 40 26 C39 17 37 15 28 14 C37 13 39 11 40 2 Z"
+          d="M48 4 C49.4 15 52 17.6 63 19 C52 20.4 49.4 23 48 34 C46.6 23 44 20.4 33 19 C44 17.6 46.6 15 48 4 Z"
           fill="#D09B4A"/>
-    <text class="joss-logo__word" x="120" y="52"
+    <!-- Wordmark JOSS -->
+    <text class="joss-logo__word" x="130" y="62"
           text-anchor="middle"
           font-family="'Playfair Display', 'Times New Roman', Georgia, serif"
-          font-size="54" font-weight="600" letter-spacing="1"
+          font-size="60" font-weight="600" letter-spacing="0"
           fill="{{ word_color }}">JOSS</text>
-    <text class="joss-logo__sub" x="120" y="70"
+    <!-- COSMETICS (aligned under the right side) -->
+    <text class="joss-logo__sub" x="172" y="80"
           text-anchor="middle"
           font-family="'Montserrat', sans-serif"
-          font-size="9.5" font-weight="600" letter-spacing="6"
+          font-size="10" font-weight="600" letter-spacing="7"
           fill="#D09B4A">COSMETICS</text>
   </svg>
 </span>

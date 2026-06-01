@@ -1,0 +1,86 @@
+{%- style -%}
+  .section-{{ section.id }} { padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px; }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}{% if section.settings.bordered %} section--bordered{% endif %}">
+  <div class="page-width">
+    {%- if section.settings.section_title != blank -%}
+      <div class="vtext__heading">
+        {%- if section.settings.section_label != blank -%}
+          <div class="section-label">{{ section.settings.section_label }}</div>
+        {%- endif -%}
+        <h2 class="vtext__main-title">{{ section.settings.section_title }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="vtext vtext--media-{{ section.settings.media_side }}">
+      <div class="vtext__media-col reveal">
+        <div class="vtext__media">
+          {%- if section.settings.video != blank -%}
+            <video class="vtext__video" autoplay muted loop playsinline
+                   {% if section.settings.image != blank %}poster="{{ section.settings.image | image_url: width: 1000 }}"{% endif %}>
+              <source src="{{ section.settings.video }}" type="video/mp4">
+            </video>
+          {%- elsif section.settings.video_shopify != blank -%}
+            {{ section.settings.video_shopify | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'vtext__video' }}
+          {%- elsif section.settings.image != blank -%}
+            <img src="{{ section.settings.image | image_url: width: 1000 }}" alt="{{ section.settings.title | escape }}" loading="lazy">
+          {%- else -%}
+            <div class="vtext__placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="vtext__text-col reveal">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="vtext__eyebrow">{{ section.settings.eyebrow }}</div>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h3 class="vtext__title">{{ section.settings.title }}</h3>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="vtext__body">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.btn_label != blank -%}
+          <div class="vtext__buttons">
+            <a href="{{ section.settings.btn_url | default: '#' }}" class="btn btn--primary">{{ section.settings.btn_label }}</a>
+            {%- if section.settings.btn2_label != blank -%}
+              <a href="{{ section.settings.btn2_url | default: '#' }}" class="btn btn--secondary">{{ section.settings.btn2_label }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "JOSS Video + Text",
+  "tag": "div",
+  "settings": [
+    { "type": "header", "content": "Optional section heading" },
+    { "type": "text", "id": "section_label", "label": "Top label" },
+    { "type": "text", "id": "section_title", "label": "Top title" },
+    { "type": "header", "content": "Media" },
+    { "type": "video", "id": "video_shopify", "label": "Video (upload to Shopify)" },
+    { "type": "url", "id": "video", "label": "Video URL (.mp4 external)" },
+    { "type": "image_picker", "id": "image", "label": "Image / poster" },
+    { "type": "select", "id": "media_side", "label": "Media side",
+      "options": [{"value":"left","label":"Left"},{"value":"right","label":"Right"}], "default": "left" },
+    { "type": "header", "content": "Text" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Body Tanning Cream" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>A rich, even, stage-ready tan in a single layer. Sweat-resistant and durable through intense movement.</p>" },
+    { "type": "text", "id": "btn_label", "label": "Button 1 label", "default": "Buy now" },
+    { "type": "url", "id": "btn_url", "label": "Button 1 URL" },
+    { "type": "text", "id": "btn2_label", "label": "Button 2 label" },
+    { "type": "url", "id": "btn2_url", "label": "Button 2 URL" },
+    { "type": "header", "content": "Layout" },
+    { "type": "checkbox", "id": "bordered", "label": "Top border", "default": true },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 140, "step": 4, "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 140, "step": 4, "default": 80 }
+  ],
+  "presets": [{ "name": "JOSS Video + Text" }]
+}
+{% endschema %}

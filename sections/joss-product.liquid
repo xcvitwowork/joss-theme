@@ -27,6 +27,15 @@
       <div class="product-info">
         <div class="product-info__vendor">{{ product.vendor | default: shop.name }}</div>
         <h1 class="product-info__title">{{ product.title }}</h1>
+        {%- if section.settings.subtitle != blank -%}
+          <div class="product-info__subtitle">{{ section.settings.subtitle }}</div>
+        {%- endif -%}
+
+        <div class="product-info__stars">
+          <span>★★★★★</span>
+          <span class="product-info__stars-count">{{ section.settings.reviews_text | default: 'Trusted by champions across Europe' }}</span>
+        </div>
+
         <div class="product-info__price-row">
           <span class="product-info__price" id="product-price">{{ current.price | money }}</span>
           {%- if current.compare_at_price > current.price -%}
@@ -35,6 +44,7 @@
             <span class="product-info__save">-{{ pct }}%</span>
           {%- endif -%}
         </div>
+
         {%- unless product.has_only_default_variant -%}
           {%- for option in product.options_with_values -%}
             <div class="product-info__option-label">
@@ -53,6 +63,7 @@
             </div>
           {%- endfor -%}
         {%- endunless -%}
+
         {%- form 'product', product, id: 'product-form' -%}
           <input type="hidden" name="id" value="{{ current.id }}" id="variant-id">
           <div class="product-info__qty-row">
@@ -67,16 +78,40 @@
             {%- if current.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
           </button>
         {%- endform -%}
+
         {%- if settings.show_bundle_upsell -%}
           <a href="{{ settings.bundle_url | default: routes.all_products_collection_url }}" class="product-info__upsell">View Big Set -10% -></a>
         {%- endif -%}
+
+        {%- comment -%} Trust badges row {%- endcomment -%}
+        <div class="product-trust">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'trust' -%}
+              <div class="product-trust__item" {{ block.shopify_attributes }}>
+                <span class="product-trust__icon">{{ block.settings.icon | default: '✦' }}</span>
+                <span class="product-trust__text">{{ block.settings.text }}</span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
         <div class="accordion">
           {%- if product.description != blank -%}
             <div class="accordion__item">
-              <button class="accordion__trigger" type="button" aria-expanded="false">Description <span class="accordion__icon">+</span></button>
-              <div class="accordion__body" hidden><div class="accordion__content">{{ product.description }}</div></div>
+              <button class="accordion__trigger" type="button" aria-expanded="true">Description <span class="accordion__icon">+</span></button>
+              <div class="accordion__body"><div class="accordion__content">{{ product.description }}</div></div>
             </div>
           {%- endif -%}
+
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'accordion' and block.settings.content != blank -%}
+              <div class="accordion__item" {{ block.shopify_attributes }}>
+                <button class="accordion__trigger" type="button" aria-expanded="false">{{ block.settings.heading }} <span class="accordion__icon">+</span></button>
+                <div class="accordion__body" hidden><div class="accordion__content">{{ block.settings.content }}</div></div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
           <div class="accordion__item">
             <button class="accordion__trigger" type="button" aria-expanded="false">Shipping & Returns <span class="accordion__icon">+</span></button>
             <div class="accordion__body" hidden><div class="accordion__content">{{ settings.shipping_text }}</div></div>
@@ -86,9 +121,76 @@
     </div>
   </div>
 </div>
+
+{%- comment -%} ── HOW TO USE / FEATURE STRIP below the fold ── {%- endcomment -%}
+{%- if section.settings.show_howto -%}
+  <div class="product-howto section--bordered">
+    <div class="page-width">
+      <div class="text-center mb-48">
+        <div class="section-label section-label--center">{{ section.settings.howto_label | default: 'Application' }}</div>
+        <h2 class="section-title">{{ section.settings.howto_title | default: 'How to apply' }}</h2>
+      </div>
+      <div class="product-howto__grid">
+        {%- assign step_n = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'step' -%}
+            {%- assign step_n = step_n | plus: 1 -%}
+            <div class="product-howto__step reveal" {{ block.shopify_attributes }}>
+              <div class="product-howto__num">{{ step_n }}</div>
+              <h3 class="product-howto__step-title">{{ block.settings.title }}</h3>
+              <p class="product-howto__step-text">{{ block.settings.text }}</p>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
 <script id="product-variants-json" type="application/json">
   [{%- for v in product.variants -%}{"id":{{ v.id }},"price":{{ v.price }},"available":{{ v.available }},"options":[{%- for o in v.options -%}{{ o | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
 </script>
+
 {% schema %}
-{"name":"Product","tag":"div","settings":[{"type":"checkbox","id":"show_dynamic_checkout","label":"Show Buy it now","default":true}],"presets":[{"name":"Product"}]}
+{
+  "name": "Product",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "subtitle", "label": "Subtitle (under title)", "default": "Rich, even, stage-ready tan in one layer" },
+    { "type": "text", "id": "reviews_text", "label": "Reviews text", "default": "Trusted by champions across Europe" },
+    { "type": "header", "content": "How to apply section" },
+    { "type": "checkbox", "id": "show_howto", "label": "Show 'How to apply' section", "default": true },
+    { "type": "text", "id": "howto_label", "label": "Label", "default": "Application" },
+    { "type": "text", "id": "howto_title", "label": "Title", "default": "How to apply" }
+  ],
+  "blocks": [
+    { "type": "trust", "name": "Trust badge", "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (emoji)", "default": "✦" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Sweat & water resistant" }
+      ]
+    },
+    { "type": "accordion", "name": "Accordion row", "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Ingredients" },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Premium, skin-safe ingredients tested under real competition conditions.</p>" }
+      ]
+    },
+    { "type": "step", "name": "How-to step", "settings": [
+        { "type": "text", "id": "title", "label": "Step title", "default": "Prep the skin" },
+        { "type": "textarea", "id": "text", "label": "Step text", "default": "Apply to clean, dry skin. Optionally exfoliate 10–12h before." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Product",
+    "blocks": [
+      { "type": "trust", "settings": { "icon": "✦", "text": "Sweat & water resistant" }},
+      { "type": "trust", "settings": { "icon": "★", "text": "Even, streak-free finish" }},
+      { "type": "trust", "settings": { "icon": "⬡", "text": "Made in Ukraine" }},
+      { "type": "step", "settings": { "title": "Prep the skin", "text": "Apply to clean, dry skin. Our formula works beautifully even without special rituals. Optionally exfoliate and moisturise dry areas 10–12h before." }},
+      { "type": "step", "settings": { "title": "Shake well", "text": "Shake the bottle to ensure the formula is perfectly blended before use." }},
+      { "type": "step", "settings": { "title": "Apply evenly", "text": "Place small dots over the body and spread right away across larger areas for a smooth, even result." }},
+      { "type": "step", "settings": { "title": "Perfect result", "text": "One layer is enough for a beautiful, rich effect. Multiple layers are not recommended." }}
+    ]
+  }]
+}
 {% endschema %}

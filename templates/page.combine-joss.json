@@ -1,0 +1,70 @@
+{
+  "sections": {
+    "heading": {
+      "type": "joss-rich-text",
+      "settings": {
+        "alignment": "left",
+        "bordered": false,
+        "padding_top": 80,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "h": { "type": "heading", "settings": { "text": "Combine JOSS — build your <em>perfect tan</em>", "size_min": 30, "size_max": 52 } },
+        "t": { "type": "text", "settings": { "text": "<p>Mix and match Body Tanning Cream, Liquid Bronzer and Sparkling Loose Powder to get the exact finish your performance needs.</p>" } }
+      },
+      "block_order": ["h", "t"]
+    },
+    "row1": {
+      "type": "joss-video-text",
+      "settings": {
+        "media_side": "left",
+        "eyebrow": "Step 1",
+        "title": "Body Tanning Cream",
+        "text": "<p><strong>Chocolate brown · Medium brown.</strong> The rich base of your tan — a dense, buildable formula that delivers an even, stage-ready colour in a single layer.</p>",
+        "btn_label": "Shop the cream",
+        "bordered": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "row2": {
+      "type": "joss-video-text",
+      "settings": {
+        "media_side": "right",
+        "eyebrow": "Step 2",
+        "title": "Liquid Bronzer",
+        "text": "<p>Layer over the cream for added depth and dimension under bright stage lighting. Blends seamlessly for a natural, sculpted glow.</p>",
+        "btn_label": "Shop the bronzer",
+        "bordered": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "row3": {
+      "type": "joss-video-text",
+      "settings": {
+        "media_side": "left",
+        "eyebrow": "Step 3",
+        "title": "Sparkling Loose Powder",
+        "text": "<p><strong>Gold brown.</strong> The finishing touch — a fine shimmer that catches the light and locks everything in place for a flawless, long-lasting look.</p>",
+        "btn_label": "Shop the powder",
+        "bordered": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "featured": {
+      "type": "joss-featured-products",
+      "settings": {
+        "label": "Shop the set",
+        "title": "Build your combination",
+        "count": 4,
+        "columns": "4",
+        "view_all_label": "View all",
+        "padding_top": 70,
+        "padding_bottom": 90
+      }
+    }
+  },
+  "order": ["heading", "row1", "row2", "row3", "featured"]
+}
