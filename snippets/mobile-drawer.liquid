@@ -32,13 +32,13 @@
     </div>
     <div class="mobile-drawer__socials">
       {%- if settings.social_instagram != blank -%}
-        <a href="{{ settings.social_instagram }}" class="mobile-drawer__social" target="_blank" rel="noopener">IG</a>
+        <a href="{{ settings.social_instagram }}" class="mobile-drawer__social" target="_blank" rel="noopener" aria-label="Instagram">{%- render 'icon', name: 'instagram' -%}</a>
       {%- endif -%}
       {%- if settings.social_tiktok != blank -%}
-        <a href="{{ settings.social_tiktok }}" class="mobile-drawer__social" target="_blank" rel="noopener">TK</a>
+        <a href="{{ settings.social_tiktok }}" class="mobile-drawer__social" target="_blank" rel="noopener" aria-label="TikTok">{%- render 'icon', name: 'tiktok' -%}</a>
       {%- endif -%}
       {%- if settings.social_facebook != blank -%}
-        <a href="{{ settings.social_facebook }}" class="mobile-drawer__social" target="_blank" rel="noopener">FB</a>
+        <a href="{{ settings.social_facebook }}" class="mobile-drawer__social" target="_blank" rel="noopener" aria-label="Facebook">{%- render 'icon', name: 'facebook' -%}</a>
       {%- endif -%}
     </div>
   </div>

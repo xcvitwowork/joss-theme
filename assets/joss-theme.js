@@ -24,6 +24,7 @@ const joss = (() => {
     initFilters();
     initScrollReveal();
     initAnnouncement();
+    initStickyAtc();
     updateCartCount();
   }
 
@@ -246,11 +247,32 @@ const joss = (() => {
         // Update price
         const priceEl = document.querySelector('.product-info__price');
         if (priceEl) priceEl.textContent = formatMoney(match.price);
+        // Update compare-at price
+        const compareEl = document.querySelector('.product-info__compare');
+        if (compareEl) {
+          if (match.compare_at && match.compare_at > match.price) {
+            compareEl.textContent = formatMoney(match.compare_at);
+            compareEl.style.display = '';
+          } else {
+            compareEl.style.display = 'none';
+          }
+        }
+        // Swap main gallery image to the variant image
+        if (match.image) {
+          const mainImg = document.getElementById('gallery-main-img');
+          if (mainImg) mainImg.src = match.image;
+        }
         // Update availability
         const addBtn = document.querySelector('.product-info__add-btn');
         if (addBtn) {
           addBtn.disabled = !match.available;
           addBtn.textContent = match.available ? 'Add to Cart' : 'Sold Out';
+        }
+        // Update URL (deep-link to variant) without reload
+        if (history.replaceState) {
+          const url = new URL(window.location);
+          url.searchParams.set('variant', match.id);
+          history.replaceState({}, '', url);
         }
       }
     } catch (e) { /* silent */ }
@@ -382,6 +404,17 @@ const joss = (() => {
       this.closest('.announcement-bar')?.remove();
       document.body.classList.remove('has-announcement');
     });
+  }
+
+  /* ── STICKY MOBILE ADD-TO-CART ── */
+  function initStickyAtc() {
+    const sticky = document.getElementById('product-sticky');
+    const mainBtn = document.querySelector('.product-info__add-btn');
+    if (!sticky || !mainBtn || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => sticky.classList.toggle('visible', !e.isIntersecting));
+    }, { rootMargin: '0px 0px -120px 0px' });
+    io.observe(mainBtn);
   }
 
   /* ── TOAST ── */

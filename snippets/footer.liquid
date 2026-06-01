@@ -49,13 +49,13 @@
       <span class="site-footer__copy">© {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
       <div class="site-footer__socials">
         {%- if settings.social_instagram != blank -%}
-          <a href="{{ settings.social_instagram }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="{{ settings.social_instagram }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="Instagram">{%- render 'icon', name: 'instagram' -%}</a>
         {%- endif -%}
         {%- if settings.social_tiktok != blank -%}
-          <a href="{{ settings.social_tiktok }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="TikTok">TK</a>
+          <a href="{{ settings.social_tiktok }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="TikTok">{%- render 'icon', name: 'tiktok' -%}</a>
         {%- endif -%}
         {%- if settings.social_facebook != blank -%}
-          <a href="{{ settings.social_facebook }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+          <a href="{{ settings.social_facebook }}" class="site-footer__social" target="_blank" rel="noopener" aria-label="Facebook">{%- render 'icon', name: 'facebook' -%}</a>
         {%- endif -%}
       </div>
     </div>

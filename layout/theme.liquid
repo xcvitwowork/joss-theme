@@ -3,8 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="{{ page_description | escape }}">
+  <meta name="description" content="{% if page_description %}{{ page_description | escape }}{% else %}{{ shop.description | default: shop.name | escape }}{% endif %}">
   <title>{% if page_title %}{{ page_title }} — {% endif %}{{ shop.name }}</title>
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- comment -%} Open Graph / social sharing {%- endcomment -%}
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:type" content="{% if request.page_type == 'product' %}product{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ page_title | default: shop.name | escape }}">
+  <meta property="og:description" content="{% if page_description %}{{ page_description | escape }}{% else %}{{ shop.description | default: shop.name | escape }}{% endif %}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if request.page_type == 'product' and product.featured_media -%}
+    <meta property="og:image" content="https:{{ product.featured_media | image_url: width: 1200 }}">
+  {%- elsif settings.logo -%}
+    <meta property="og:image" content="https:{{ settings.logo | image_url: width: 1200 }}">
+  {%- endif -%}
+  <meta name="twitter:card" content="summary_large_image">
 
   {{ content_for_header }}
 

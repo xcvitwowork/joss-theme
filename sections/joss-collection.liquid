@@ -1,11 +1,18 @@
 <div class="page-width">
+  <nav class="breadcrumb" style="padding-top:32px">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span class="breadcrumb__sep">→</span>
+    <span>{{ collection.title }}</span>
+  </nav>
   <div class="collection-header">
     <div class="section-label">Collection</div>
     <h1 class="collection-header__title">{{ collection.title }}</h1>
     {%- if collection.description != blank -%}
       <p class="collection-header__desc">{{ collection.description }}</p>
     {%- endif -%}
+    <p class="collection-header__count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</p>
   </div>
+
   {%- paginate collection.products by 24 -%}
     <div class="product-grid product-grid--4">
       {%- for product in collection.products -%}
@@ -13,25 +20,62 @@
           <div class="product-card__image-wrap">
             {%- if product.featured_image -%}
               <img class="product-card__image" src="{{ product.featured_image | image_url: width: 600 }}"
-                   alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
+                   alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                   width="600" height="800" loading="lazy">
+            {%- endif -%}
+            {%- if product.images[1] != blank -%}
+              <img class="product-card__image product-card__image--hover" src="{{ product.images[1] | image_url: width: 600 }}"
+                   alt="" width="600" height="800" loading="lazy" aria-hidden="true">
             {%- endif -%}
             {%- if product.compare_at_price > product.price -%}
               <span class="product-card__badge">Sale</span>
+            {%- elsif product.tags contains 'new' -%}
+              <span class="product-card__badge product-card__badge--new">New</span>
             {%- endif -%}
-            <button class="product-card__cart-btn" aria-label="Add to cart"
-                    onclick="event.preventDefault();joss.addToCart({{ product.first_available_variant.id }})">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-            </button>
+            {%- unless product.available -%}
+              <span class="product-card__badge product-card__badge--out">Sold out</span>
+            {%- endunless -%}
+            {%- if product.available -%}
+              <button class="product-card__cart-btn" aria-label="Add {{ product.title | escape }} to cart"
+                      onclick="event.preventDefault();joss.addToCart({{ product.selected_or_first_available_variant.id }})">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              </button>
+            {%- endif -%}
           </div>
           <div class="product-card__name">{{ product.title }}</div>
           <div class="product-card__footer">
-            <span class="product-card__price">{{ product.price_min | money }}</span>
+            <div>
+              <span class="product-card__price">{{ product.price_min | money }}</span>
+              {%- if product.compare_at_price > product.price -%}
+                <span class="product-card__compare">{{ product.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+            <span class="product-card__stars" aria-label="5 out of 5 stars">★★★★★</span>
           </div>
         </a>
       {%- else -%}
-        <p style="grid-column:1/-1;color:rgba(255,255,255,.5);text-align:center;padding:60px 0">No products found.</p>
+        <div class="collection-empty">
+          <div class="collection-empty__icon">{%- render 'icon', name: 'sparkle' -%}</div>
+          <p class="collection-empty__title">Nothing here yet</p>
+          <p class="collection-empty__text">This collection is currently empty. Explore our full range instead.</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary mt-16">Browse all products</a>
+        </div>
       {%- endfor -%}
     </div>
+
+    {%- if paginate.pages > 1 -%}
+      <div class="pagination">
+        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="pagination__link">← Prev</a>{%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" class="pagination__link">{{ part.title }}</a>
+          {%- else -%}
+            <span class="pagination__link pagination__link--current">{{ part.title }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}<a href="{{ paginate.next.url }}" class="pagination__link">Next →</a>{%- endif -%}
+      </div>
+    {%- endif -%}
   {%- endpaginate -%}
 </div>
 {% schema %}{"name":"Collection","tag":"div","presets":[{"name":"Collection"}]}{% endschema %}

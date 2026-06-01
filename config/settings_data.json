@@ -9,6 +9,16 @@
  */
 {
   "current": {
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#0a0503",
+          "text": "#ffffff",
+          "button": "#D09B4A",
+          "button_label": "#000000"
+        }
+      }
+    },
     "logo": "shopify://shop_images/COSMETICS1_9ef563ad-fd1d-4c74-806e-634d5dbb41fd.png",
     "logo_width": 120,
     "color_gold": "#D09B4A",
