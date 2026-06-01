@@ -1,19 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
+    "logo": "shopify://shop_images/COSMETICS1_9ef563ad-fd1d-4c74-806e-634d5dbb41fd.png",
+    "logo_width": 120,
     "color_gold": "#D09B4A",
     "color_gold_light": "#E8B870",
     "color_bg": "#000000",
-    "logo_width": 120,
     "show_announcement": true,
     "announcement_text": "✦ Free shipping on orders over $50 · Big Set –10% off ✦",
-    "show_currency_bar": true,
     "search_placeholder": "Search products…",
     "show_bundle_upsell": true,
     "shipping_text": "Free shipping on orders over $50. Standard delivery 3–7 business days. Returns within 30 days.",
-    "footer_tagline": "Trusted by Champions",
-    "footer_description": "Professional cosmetics for dance and stage. Made in Ukraine.",
     "social_instagram": "",
     "social_tiktok": "",
-    "social_facebook": ""
+    "social_facebook": "",
+    "show_currency_bar": true,
+    "footer_tagline": "Trusted by Champions",
+    "footer_description": "Professional cosmetics for dance and stage. Made in Ukraine.",
+    "content_for_index": []
   }
 }

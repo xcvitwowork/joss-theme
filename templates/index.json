@@ -1,8 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "joss-hero": {
       "type": "joss-hero",
       "settings": {
+        "image": "shopify://shop_images/IMG_4373.jpg",
         "tag": "Trusted by Champions",
         "title": "Glow starts",
         "title_em": "here.",
@@ -28,10 +38,12 @@
       "settings": {
         "label": "Our Products",
         "title": "Best sellers",
+        "collection": "",
         "count": 4,
         "columns": "4",
         "view_all_label": "View all",
         "view_all_url": "/collections/all",
+        "title_margin": 48,
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -39,14 +51,17 @@
     "joss-image-text": {
       "type": "joss-image-text",
       "settings": {
+        "image": "shopify://shop_images/IMG_4373.jpg",
+        "image_ratio": "34",
+        "image_side": "left",
         "label": "About JOSS",
         "title": "The first professional cosmetics for dance",
         "text": "Developed and manufactured in Ukraine using premium quality ingredients. Easy to apply, durable through intense movement.",
         "tags": "Premium Quality|Easy Apply|Long Lasting|Made in Ukraine",
         "btn1_label": "About Us",
         "btn1_url": "/pages/about",
-        "image_ratio": "34",
-        "image_side": "left",
+        "btn2_label": "",
+        "btn2_url": "",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -54,23 +69,90 @@
     "joss-stats": {
       "type": "joss-stats",
       "blocks": {
-        "stat-1": { "type": "stat", "settings": { "number": "10+",  "label": "Countries" } },
-        "stat-2": { "type": "stat", "settings": { "number": "127",  "label": "5-Star Reviews" } },
-        "stat-3": { "type": "stat", "settings": { "number": "4.9★", "label": "Average Rating" } },
-        "stat-4": { "type": "stat", "settings": { "number": "100%", "label": "Stage-Tested" } }
+        "stat-1": {
+          "type": "stat",
+          "settings": {
+            "number": "10+",
+            "label": "Countries"
+          }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": {
+            "number": "127",
+            "label": "5-Star Reviews"
+          }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": {
+            "number": "4.9★",
+            "label": "Average Rating"
+          }
+        },
+        "stat-4": {
+          "type": "stat",
+          "settings": {
+            "number": "100%",
+            "label": "Stage-Tested"
+          }
+        }
       },
-      "block_order": ["stat-1","stat-2","stat-3","stat-4"],
-      "settings": { "label": "By the numbers", "title": "Trusted by champions across Europe", "padding_top": 80, "padding_bottom": 80 }
+      "block_order": [
+        "stat-1",
+        "stat-2",
+        "stat-3",
+        "stat-4"
+      ],
+      "settings": {
+        "label": "By the numbers",
+        "title": "Trusted by champions across Europe",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     },
     "joss-testimonials": {
       "type": "joss-testimonials",
       "blocks": {
-        "rev-1": { "type": "review", "settings": { "stars": 5, "text": "Stays on through an entire competition without streaking. Finally a product made for dancers.", "name": "Anna K.", "role": "Professional Ballroom Dancer" } },
-        "rev-2": { "type": "review", "settings": { "stars": 5, "text": "The only bronzer that photographs beautifully under stage lighting. I won't compete without it.", "name": "Maria S.", "role": "Dance Instructor" } },
-        "rev-3": { "type": "review", "settings": { "stars": 5, "text": "The loose powder adds exactly the right sparkle. My go-to for every performance.", "name": "Elena V.", "role": "Latin Dance Champion" } }
+        "rev-1": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Stays on through an entire competition without streaking. Finally a product made for dancers.",
+            "name": "Anna K.",
+            "role": "Professional Ballroom Dancer"
+          }
+        },
+        "rev-2": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "The only bronzer that photographs beautifully under stage lighting. I won't compete without it.",
+            "name": "Maria S.",
+            "role": "Dance Instructor"
+          }
+        },
+        "rev-3": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "The loose powder adds exactly the right sparkle. My go-to for every performance.",
+            "name": "Elena V.",
+            "role": "Latin Dance Champion"
+          }
+        }
       },
-      "block_order": ["rev-1","rev-2","rev-3"],
-      "settings": { "label": "Reviews", "title": "What champions say", "padding_top": 80, "padding_bottom": 80 }
+      "block_order": [
+        "rev-1",
+        "rev-2",
+        "rev-3"
+      ],
+      "settings": {
+        "label": "Reviews",
+        "title": "What champions say",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     },
     "joss-newsletter": {
       "type": "joss-newsletter",
@@ -78,6 +160,7 @@
         "label": "Stay in the loop",
         "title": "Get exclusive offers & tips",
         "subtitle": "Join the JOSS community. Be first to know about new products.",
+        "placeholder": "your@email.com",
         "btn_label": "Subscribe",
         "disclaimer": "No spam. Unsubscribe any time.",
         "padding_top": 80,
@@ -99,5 +182,14 @@
       }
     }
   },
-  "order": ["joss-hero","joss-marquee","joss-products","joss-image-text","joss-stats","joss-testimonials","joss-newsletter","joss-champion"]
+  "order": [
+    "joss-hero",
+    "joss-marquee",
+    "joss-products",
+    "joss-image-text",
+    "joss-stats",
+    "joss-testimonials",
+    "joss-newsletter",
+    "joss-champion"
+  ]
 }
